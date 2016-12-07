@@ -1,0 +1,167 @@
+/* Source :
+Tutoriel Formulaires HTML5 : prenez la clé des champs – Pompage
+Inayaili de León
+http://www.pompage.net/traduction/formulaires-html5-prenez-la-cle */
+
+/* remise à zéro les marges et des espacements des éléments, police par défaut pour la page */
+html, body, h1, form, fieldset, legend, ol, li {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #ffffff;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  padding: 20px;
+}
+
+form#paiement {
+  background: #9cbc2c;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 20px;
+  width: 400px;
+}
+
+/* enlever la bordure de l’élément fieldset, puis ajouter de la marge en bas. Grâce à la pseudo-classe :last-of-type, enlever la marge en bas du dernier fieldset, car nous n’en avons pas besoin. */
+form#paiement fieldset {
+  border: none;
+  margin-bottom: 10px;
+}
+form#paiement fieldset:last-of-type {
+  margin-bottom: 0;
+}
+
+/* passer les legend en grand et en gras, et appliquer un text-shadow vert clair pour obtenir un petit effet sympa supplémentaire */
+form#paiement legend {
+  color: #384313;
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 1px #c0d576;
+}
+
+/*
+Nos legend ont maintenant très bel aspect, mais ce serait encore mieux si elles indiquaient très clairement le nombre d’étapes à suivre dans notre formulaire. Au lieu de l’ajouter manuellement à chaque legend, nous pouvons utiliser des compteurs générés automatiquement.
+
+Pour ajouter un compteur à un élément, il faut utiliser l’un des pseudo-éléments :before ou :after pour ajouter du contenu via les feuilles de style. Voici comment faire :
+
+créer un compteur en utilisant la propriété counter-reset sur l’élément form ;
+appeler le compteur avec la propriété content (en gardant le nom que nous avons créé auparavant) ;
+avec la propriété counter-increment, indiquer qu’à chaque élément qui correspond à notre sélecteur, ce compteur sera augmenté de 1.
+*/
+form#paiement > fieldset > legend:before {
+  content: "Étape " counter(fieldsets) " : ";
+  counter-increment: fieldsets;
+}
+
+/*changer le style de la balise legend qui appartient au groupe de boutons radio, pour lui donner l’aspect d’un label*/
+form#paiement fieldset fieldset legend {
+  color: #111111;
+  font-size: 13px;
+  font-weight: normal;
+  padding-bottom: 0;
+}
+
+/*Pour nos éléments de liste, nous allons nous contenter d’ajouter de jolis coins arrondis, avec bordure et fond semi-transparents. Puisque nous utilisons des couleurs RGBa, il faut fournir une solution pour les navigateurs qui ne les gèrent pas (à placer avant la couleur RGBa). Pour les listes imbriquées, mieux vaut retirer ces propriétés pour éviter qu’elles se recoupent :*/
+form#paiement ol li {
+  background: #b9cf6a;
+  background: rgba(255,255,255,.3);
+  border-color: #e3ebc3;
+  border-color: rgba(255,255,255,.6);
+  border-style: solid;
+  border-width: 2px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  line-height: 30px;
+  list-style: none;
+  padding: 5px 10px;
+  margin-bottom: 2px;
+}
+form#paiement ol ol li {
+  background: none;
+  border: none;
+  float: left;
+}
+
+/*
+Il ne nous reste plus qu’à styler nos label (étiquettes de champ de saisie), nos input (les entrées à saisir) et l’élément button. Tous nos label auront le même aspect, à l’exception de celui utilisé pour les éléments radio. Nous les laisserons flotter à gauche, et nous leur attribuerons une largeur.
+
+Pour les label de la partie carte de crédit, nous allons ajouter une icône en image de fond, et éliminer certaines propriétés inutiles. Nous utiliserons le sélecteur d’attribut pour définir l’image de fond de chaque label ; dans le cas présent, c’est l’attribut for qui sera employé pour chaque label.
+
+Encore un détail pour améliorer l’ergonomie : nous allons ajouter un curseur de type pointeur (cursor: pointer) aux label de type bouton radio lorsqu’ils sont survolés (état hover), afin que l’utilisateur sache qu’il n’a qu’à cliquer pour sélectionner cette option.
+*/
+form#paiement label {
+  float: left;
+  font-size: 13px;
+  width: 110px;
+}
+form#paiement fieldset fieldset label {
+  background:none no-repeat left 50%;
+  line-height: 20px;
+  padding: 0 0 0 30px;
+  width: auto;
+}
+form#paiement label[for=visa] {
+  background-image: url(visa.gif);
+}
+form#paiement label[for=amex] {
+  background-image: url(amex.gif);
+}
+form#paiement label[for=mastercard] {
+  background-image: url(mastercard.gif);
+}
+form#paiement fieldset fieldset label:hover {
+  cursor: pointer;
+}
+
+/*
+On touche à la fin ! Passons maintenant aux éléments input. Nous voulons que tous les champs input soient identiques, sauf pour les boutons radio et la zone de texte textarea. À cet effet, nous utiliserons la pseudo-classe de négation :not(). Grâce à elle, nous allons cibler tous les éléments input à l’exception de ceux qui possèdent le type radio.
+
+Il ne faudra pas non plus oublier d’ajouter des styles de focus, ainsi que de styler correctement les input de type radio.
+*/
+form#paiement input:not([type=radio]),
+form#paiement textarea {
+  background: #ffffff;
+  border: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+  font: italic 13px Georgia, "Times New Roman", Times, serif;
+  outline: none;
+  padding: 5px;
+  width: 200px;
+}
+form#paiement input:not([type=submit]):focus,
+form#paiement textarea:focus {
+  background: #eaeaea;
+}
+form#paiement input[type=radio] {
+  float: left;
+  margin-right: 5px;
+}
+
+/*Pour finir, nous voici arrivés au button, le bouton permettant de soumettre le formulaire. Nous allons juste y ajouter une jolie police et un effet de text-shadow, puis l’aligner au centre du formulaire et lui donner différentes couleurs de fond pour chaque état possible :*/
+form#paiement button {
+  background: #384313;
+  border: none;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -khtml-border-radius: 20px;
+  border-radius: 20px;
+  color: #ffffff;
+  display: block;
+  font: 18px Georgia, "Times New Roman", Times, serif;
+  letter-spacing: 1px;
+  margin: auto;
+  padding: 7px 25px;
+  text-shadow: 0 1px 1px #000000;
+  text-transform: uppercase;
+}
+form#paiement button:hover {
+  background: #1e2506;
+  cursor: pointer;
+}
